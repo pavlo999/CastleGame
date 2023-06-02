@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Cloud : MonoBehaviour
 {
@@ -17,11 +15,12 @@ public class Cloud : MonoBehaviour
     public float scaleYMin = 2f;
     private List<GameObject> spheres;
 
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         spheres = new List<GameObject>();
         int num = Random.Range(numSpheresMin, numSpheresMax);
-        for (int i = 0; i < num; i++)
+        for(int i = 0; i < num; i++)
         {
             var sp = Instantiate(cloudSphere);
             spheres.Add(sp);
@@ -33,30 +32,30 @@ public class Cloud : MonoBehaviour
             offset.y *= sphereOffsetScale.y;
             offset.z *= sphereOffsetScale.z;
             spTrans.localPosition = offset;
-            
+
             Vector3 scale = Vector3.one;
-            scale.x = Random.Range(sphereScaleRangeX.y, sphereScaleRangeX.y);
-            scale.y = Random.Range(sphereScaleRangeY.y, sphereScaleRangeY.y);
-            scale.z = Random.Range(sphereScaleRangeZ.y, sphereScaleRangeZ.y);
+            scale.x = Random.Range(sphereScaleRangeX.x, sphereScaleRangeX.y);
+            scale.y = Random.Range(sphereScaleRangeY.x, sphereScaleRangeY.y);
+            scale.z = Random.Range(sphereScaleRangeZ.x, sphereScaleRangeZ.y);
 
             scale.y *= 1 - (Mathf.Abs(offset.x) / sphereOffsetScale.x);
-            scale.y = Mathf.Max(scale.y, scaleYMin);
-            
+            scale.y=Mathf.Max(scale.y, scaleYMin);
+
             spTrans.localScale = scale;
         }
     }
 
+    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space))
         {
             Restart();
         }
     }
-
     void Restart()
     {
-        foreach (GameObject sp in spheres)
+        foreach(GameObject sp in spheres)
         {
             Destroy(sp);
         }
